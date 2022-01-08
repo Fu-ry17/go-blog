@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"time"
-
 	"github.com/Fu-ry17/blog/config"
 	"github.com/Fu-ry17/blog/models"
 	"github.com/Fu-ry17/blog/utils"
@@ -21,7 +20,7 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 }
 
-func createResponseUser(userData models.User) User {
+func CreateResponseUser(userData models.User) User {
 	return User{ UID: userData.UID, Name: userData.Name, Email: userData.Email, Avatar: userData.Avatar,
 	             Role: userData.Role, CreatedAt: userData.CreatedAt }
 }
@@ -70,11 +69,9 @@ func Register(c *fiber.Ctx) error {
     
 	// save
 	config.Database.Db.Create(&user)
-	responseUser := createResponseUser(user)
 
 	return c.Status(200).JSON(fiber.Map{
 		"msg":"Register success..",
-		"user": responseUser,
 	})
 }
 
@@ -106,7 +103,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	responseUser := createResponseUser(user)
+	responseUser := CreateResponseUser(user)
      
 	refreshToken := utils.CreateRefreshToken(user.UID)
 	accessToken := utils.CreateAccessToken(user.UID)
@@ -161,7 +158,7 @@ func RefreshToken(c *fiber.Ctx) error {
 	}
     
 	accessToken := utils.CreateAccessToken(user.UID)
-    responseUser := createResponseUser(user)
+    responseUser := CreateResponseUser(user)
 
 	return c.Status(200).JSON(fiber.Map{
 		"accessToken": accessToken,

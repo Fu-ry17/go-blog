@@ -20,6 +20,10 @@ func SetUpRoutes(app *fiber.App ) error {
 	app.Get("/api/refreshToken", controllers.RefreshToken)
 	app.Post("/api/logout", controllers.Logout)
 
+	// user routes
+	app.Patch("/api/user", middleware.Auth(), controllers.UpdateUser)
+	app.Patch("/api/reset", middleware.Auth(), controllers.ResetPassword)
+
 	// category routes
 	app.Get("/api/category", controllers.GetCategories)
 	app.Post("/api/category", middleware.Auth(), controllers.CreateCategory)
