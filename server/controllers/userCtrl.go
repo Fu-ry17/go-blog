@@ -67,6 +67,7 @@ func ResetPassword(c *fiber.Ctx) error {
 	// 		"msg": "The password should be atleast 6 characters",
 	// 	})
 	// }
+	
 	// // find user
 	var user models.User
 	config.Database.Db.Where("uid = ?", id).First(&user)

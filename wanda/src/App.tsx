@@ -6,10 +6,12 @@ import NavBar from './components/nav/NavBar'
 import PageRender from './PageRender'
 import Home from './pages'
 import { refreshToken } from './redux/actions/authActions'
+import { getCategory } from './redux/actions/categoryActions'
 
 export default function App() {
     const dispatch = useDispatch()
     useEffect(()=>{
+       dispatch(getCategory())
        dispatch(refreshToken())
     },[dispatch])
 

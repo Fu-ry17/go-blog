@@ -29,3 +29,9 @@ export interface IUser {
     role: string
     _id: string
 }
+
+export interface ICategory {
+    created_at: string
+    name: string
+   _id: string
+}

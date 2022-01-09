@@ -32,6 +32,9 @@ export default function NavBar() {
                         ))
                     }
                     {
+                        auth.user?.role === 'admin' &&   <NavLink to="/category">categories</NavLink>
+                    }
+                    {
                         auth.accessToken && 
                         <NavLink to={`/profile/${auth.user?._id}`}>
                             <Avatar src={auth.user?.avatar} size="xs"/>

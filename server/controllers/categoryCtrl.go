@@ -3,11 +3,10 @@ package controllers
 import (
 	"strings"
 	"time"
-
 	"github.com/Fu-ry17/blog/config"
 	"github.com/Fu-ry17/blog/models"
 	"github.com/gofiber/fiber/v2"
-	// "github.com/golang-jwt/jwt/v4"
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
 )
 
@@ -22,9 +21,25 @@ func responseCategory(categ models.Category) Category {
 }
 
 func CreateCategory(c *fiber.Ctx) error {
-	// token := c.Locals("user").(*jwt.Token)
-	// claims := token.Claims.(jwt.MapClaims)
-	// user_id := claims["sub"].(string)
+	token := c.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	user_id := claims["sub"].(string)
+
+	// check admin
+	var user models.User
+	config.Database.Db.Where("uid = ?", user_id).First(&user)
+    
+	if user.Id == 0 {
+		return c.Status(400).JSON(fiber.Map{
+			"msg":"No user was found",
+		})
+	}
+
+	if user.Role != "admin" {
+		return c.Status(400).JSON(fiber.Map{
+			"msg":"Invalid authorization admin resources only",
+		})
+	}
 
 	var data map[string]string
 
@@ -78,10 +93,26 @@ func GetCategories(c *fiber.Ctx) error {
 }
 
 func UpdateCategory(c *fiber.Ctx) error {
-	// token := c.Locals("user").(*jwt.Token)
-	// claims := token.Claims.(jwt.MapClaims)
-	// user_id := claims["sub"].(string)
-	// param
+	token := c.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	user_id := claims["sub"].(string)
+
+	// check admin
+	var user models.User
+	config.Database.Db.Where("uid = ?", user_id).First(&user)
+    
+	if user.Id == 0 {
+		return c.Status(400).JSON(fiber.Map{
+			"msg":"No user was found",
+		})
+	}
+
+	if user.Role != "admin" {
+		return c.Status(400).JSON(fiber.Map{
+			"msg":"Invalid authorization admin resources only",
+		})
+	}
+	// parms id
 	id := c.Params("id")
 
 	if id == "" {
@@ -118,9 +149,25 @@ func UpdateCategory(c *fiber.Ctx) error {
 }
 
 func DeleteCategory(c *fiber.Ctx) error{
-	// token := c.Locals("user").(*jwt.Token)
-	// claims := token.Claims.(jwt.MapClaims)
-	// user_id := claims["sub"].(string)
+	token := c.Locals("user").(*jwt.Token)
+	claims := token.Claims.(jwt.MapClaims)
+	user_id := claims["sub"].(string)
+
+	// check admin
+	var user models.User
+	config.Database.Db.Where("uid = ?", user_id).First(&user)
+    
+	if user.Id == 0 {
+		return c.Status(400).JSON(fiber.Map{
+			"msg":"No user was found",
+		})
+	}
+
+	if user.Role != "admin" {
+		return c.Status(400).JSON(fiber.Map{
+			"msg":"Invalid authorization admin resources only",
+		})
+	}
 	// param
 	id := c.Params("id")
 
