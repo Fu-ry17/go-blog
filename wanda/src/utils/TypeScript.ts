@@ -1,7 +1,7 @@
 import {ChangeEvent, FormEvent } from 'react'
 import reducers from '../redux/reducers'
 
-export type InputChange = ChangeEvent<HTMLInputElement>
+export type InputChange = ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement >
 
 export type FormSubmit = FormEvent<HTMLFormElement>
 
@@ -34,4 +34,15 @@ export interface ICategory {
     created_at: string
     name: string
    _id: string
+}
+
+export interface IBlog {
+    _id?: string
+    title: string
+	description: string
+	image: string | File
+	category: string
+    slug: string
+    user_id: string
+	created_at: string
 }

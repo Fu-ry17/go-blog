@@ -60,9 +60,8 @@ export default function EditProfile() {
                  <div className='flex flex-col w-full items-center'>
                    <Avatar src={ avatar ? URL.createObjectURL((avatar as File)) : auth.user.avatar} size="xl" />
                    <div>
-                      {/* label error */}
-                       {/* <label htmlFor="file">Change</label> */}
-                       <input type="file" name='file' accept='image/*' onChange={handleImageChange} />
+                       <label htmlFor="file">Change</label>
+                       <input type="file" name='file' id="file" accept='image/*' onChange={handleImageChange} className='hidden'/>
                    </div>
                  </div>
 

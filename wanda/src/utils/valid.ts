@@ -1,4 +1,4 @@
-import { IUserRegister } from "./TypeScript"
+import { IBlog, IUserRegister } from "./TypeScript"
 
 export const validRegister = (data: IUserRegister) =>{
    const { name, email, password, cf_password } = data 
@@ -45,7 +45,32 @@ export const validImage = (file: File) => {
     return err = "file format is too large"
   } //5mb
 
+  return err
+}
 
+export const validBlog = (data: IBlog) => {
+  const { title, category, description, image } = data
+  let err;
+
+  if (!title){
+      return err = "title is required"
+  }
+
+  if (!category){
+    return err = "title is required"
+  }
+
+  if (!description){
+     return err = "description is required"
+  }else if(description.length > 500){
+      return err = "description should be less than 500 characters"
+  }
+
+  if (!image){
+    return err = "upload an image"
+  }
+
+  return err
 }
 
 export const validPassword = (password: string, cf_password: string) => {

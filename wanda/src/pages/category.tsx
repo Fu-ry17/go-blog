@@ -40,7 +40,7 @@ export default function Category() {
     if(auth.user?.role !== 'admin') return <NotFound />
 
     return (
-        <div className='py-8 px-2 lg:px-0 max-w-xs m-auto '>
+        <div className='py-8 lg:px-0 px-2 sm:max-w-xs m-auto '>
             <h1> Categories </h1>
 
             <form className='flex justify-between w-full' onSubmit={handleSubmit}>
