@@ -61,7 +61,13 @@ func ResetPassword(c *fiber.Ctx) error {
 			"msg": err.Error(),
 		})
 	}
-	// find user
+	
+	// if len(data["passsword"]) < 6 {
+	// 	return c.Status(400).JSON(fiber.Map{
+	// 		"msg": "The password should be atleast 6 characters",
+	// 	})
+	// }
+	// // find user
 	var user models.User
 	config.Database.Db.Where("uid = ?", id).First(&user)
 
@@ -77,13 +83,8 @@ func ResetPassword(c *fiber.Ctx) error {
 		})
 	}
 
-	if len(data["passsword"]) < 6 {
-		return c.Status(400).JSON(fiber.Map{
-			"msg": "The password should be atleast 6 characters",
-		})
-	}
 	// hash password
-    password, err := bcrypt.GenerateFromPassword([]byte(data["password"]), 14)
+    password, err := bcrypt.GenerateFromPassword([]byte(data["password"]), 15)
 
 	if err != nil {
 		return c.Status(500).JSON(fiber.Map{

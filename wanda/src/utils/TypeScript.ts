@@ -17,8 +17,12 @@ export interface IUserRegister extends IUserLogin {
     cf_password: string
 }
 
-export interface IUser {
+export interface IUserProfile extends IUserRegister{
     avatar: string | File
+}
+
+export interface IUser {
+    avatar: string 
     created_at: string
     email: string
     name: string

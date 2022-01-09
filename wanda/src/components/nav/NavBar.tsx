@@ -34,7 +34,7 @@ export default function NavBar() {
                     {
                         auth.accessToken && 
                         <NavLink to={`/profile/${auth.user?._id}`}>
-                            <Avatar src={(auth.user?.avatar as string)} size="xs"/>
+                            <Avatar src={auth.user?.avatar} size="xs"/>
                         </NavLink>
                     }
                     

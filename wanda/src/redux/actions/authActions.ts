@@ -28,12 +28,13 @@ export const login = (user: IUserLogin) => async (dispatch: Dispatch<IAuthType |
 // changes to register
 export const register = (user: IUserRegister) => async(dispatch: Dispatch<IAuthType | IAlertTypes>) => {
     const check = validRegister(user)
-    dispatch({ type: ALERT, payload: { error: check }})
+    if(check) return dispatch({ type: ALERT, payload: { error: check }})
 
     try {
+        dispatch({ type: ALERT, payload: { loading: true }})
+        const res = await postAPI('register', user)
 
-        // const res = await postAPI('register', user)
-        // dispatch({ type: ALERT, payload: { success: res.data.msg }})
+        dispatch({ type: ALERT, payload: { success: res.data.msg }})
 
     } catch (error: any) {
         dispatch({ type: ALERT, payload: { error: error.response.data.msg }})
@@ -56,3 +57,17 @@ export const refreshToken = () => async (dispatch: Dispatch<IAuthType | IAlertTy
     }
 }
 
+export const logout = () => async(dispatch: Dispatch<IAlertTypes>) =>{
+    try {
+        dispatch({ type: ALERT, payload: { loading: true }})
+        const res = await postAPI('logout', {})
+        dispatch({ type: ALERT, payload: { success: res.data.msg }})
+
+        localStorage.removeItem("go-blog")
+        
+        window.location.href = "/"
+
+    } catch (error: any) {
+        dispatch({ type: ALERT, payload: { error: error.response.data.msg }})
+    }
+}
