@@ -109,6 +109,32 @@ func GetBlogs(c *fiber.Ctx) error {
 	})
 }
 
+func GetCategBlogs(c *fiber.Ctx) error{
+	id := c.Params("category")
+	blogs := []models.Blog{}
+    
+	if id == ""{
+		return c.Status(400).JSON(fiber.Map{
+			"msg":"category is required",
+		})
+	}
+    
+	// find blogs
+	config.Database.Db.Find(&blogs)
+	responseBlogs := []Blog{}
+
+	for _, blog := range blogs{
+		 if(blog.Category == id){
+			responseBlog := createResponseBlog(blog)
+			responseBlogs = append(responseBlogs, responseBlog)
+		 }
+	}
+
+	return c.Status(200).JSON(fiber.Map{
+		"blogs": responseBlogs,
+	})
+}
+
 func UpdateBlog(c *fiber.Ctx) error{
 	token := c.Locals("user").(*jwt.Token)
 	claims := token.Claims.(jwt.MapClaims)

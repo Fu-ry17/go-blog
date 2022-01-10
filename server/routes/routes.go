@@ -32,6 +32,7 @@ func SetUpRoutes(app *fiber.App ) error {
 
 	// blog routes
 	app.Get("/api/blogs", controllers.GetBlogs)
+	app.Get("/api/blogs/:category", controllers.GetCategBlogs)
 	app.Post("/api/blogs", middleware.Auth(), controllers.CreateBlog)
 	app.Patch("/api/blogs/:id", middleware.Auth(), controllers.UpdateBlog)
 	app.Delete("/api/blogs/:id",middleware.Auth(), controllers.DeleteBlog)

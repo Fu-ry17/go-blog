@@ -62,9 +62,12 @@ export const validBlog = (data: IBlog) => {
 
   if (!description){
      return err = "description is required"
+  }else if(description.length < 100){
+      return err = "description should be at least 100 characters"
   }else if(description.length > 500){
-      return err = "description should be less than 500 characters"
+    return err = "description should be less than 500 characters"
   }
+
 
   if (!image){
     return err = "upload an image"
