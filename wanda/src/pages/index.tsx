@@ -15,7 +15,7 @@ export default function Home() {
                     <h1> Categories </h1>
                      {
                          category.map(categ => (
-                             <li key={categ._id} className='py-2'> <Link to={`/blog/${categ.name}`}> {categ.name }</Link></li>
+                             <li key={categ._id} className='py-2'> <Link to={`/blogs/${categ.name}`}> {categ.name }</Link></li>
                          ))
                      }
                 </div>

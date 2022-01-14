@@ -4,7 +4,7 @@ import { imageUpload } from "../../utils/imageUpload";
 import { IBlog } from "../../utils/TypeScript";
 import { validBlog, validImage } from "../../utils/valid";
 import { ALERT, IAlertTypes } from "../types/alertTypes";
-import { GET_HOME_BLOGS, IGetHomeBlogTypes } from "../types/blogTypes";
+import { GET_BLOGS_BY_CATEGORY, GET_HOME_BLOGS, IGetBlogsByCategoryTypes, IGetHomeBlogTypes } from "../types/blogTypes";
 
 
 export const createBlog = (blog: IBlog, token: string) => async(dispatch: Dispatch<IAlertTypes>) => {
@@ -38,6 +38,20 @@ export const getHomeBlog = () =>  async(dispatch: Dispatch<IAlertTypes | IGetHom
 
         dispatch({ type: GET_HOME_BLOGS, payload: res.data.blogs })
         dispatch({ type: ALERT, payload: {}})
+
+    } catch (error: any) {
+        dispatch({ type: ALERT, payload: { error :error.response.data.msg }})
+    }
+}
+
+export const getBlogsByCategory = (category: string) => async(dispatch: Dispatch<IAlertTypes | IGetBlogsByCategoryTypes>) => {
+    try {
+        dispatch({ type: ALERT, payload: { loading: true} })
+        const res = await getAPI(`blogs/${category}`)
+
+         dispatch({ type: GET_BLOGS_BY_CATEGORY, payload: { ...res.data, id: category } })
+
+        dispatch({ type: ALERT, payload: {} })
 
     } catch (error: any) {
         dispatch({ type: ALERT, payload: { error :error.response.data.msg }})
