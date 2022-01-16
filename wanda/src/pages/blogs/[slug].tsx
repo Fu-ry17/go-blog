@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
+import Loading from '../../components/alert/Loading'
 import Card from '../../components/home/Card'
 import { getBlogsByCategory } from '../../redux/actions/blogActions'
 import { IBlog, RootStore } from '../../utils/TypeScript'
@@ -11,8 +12,6 @@ export default function CategoryBlogs() {
 
     const dispatch = useDispatch()
     const { blogCategory } = useSelector((state: RootStore) => state)
-
-
 
     useEffect(() =>{
        if(!slug) return 
@@ -25,6 +24,15 @@ export default function CategoryBlogs() {
            setBlogs(data.blogs)
        }
     },[slug, blogCategory, dispatch])
+
+
+    if(!blogs) return <Loading />
+
+     if(blogs.length === 0) return(
+        <div className='w-full h-screen flex items-center justify-center'>
+            <h1 className='font-bold text-xl tracking-wider'> No blogs in this category </h1>
+        </div>
+     )
     
     
     return (
@@ -32,7 +40,7 @@ export default function CategoryBlogs() {
      
              <div className='grid grid-cols-2 md:grid-cols-4 md:gap-4 gap-2'>
                 {
-                    blogs?.map(blog => (
+                      blogs?.map(blog => (
                         <Card key={blog._id} blog={blog}/>
                     ))
                 }

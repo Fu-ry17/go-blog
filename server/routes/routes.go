@@ -23,6 +23,7 @@ func SetUpRoutes(app *fiber.App ) error {
 	// user routes
 	app.Patch("/api/user", middleware.Auth(), controllers.UpdateUser)
 	app.Patch("/api/reset", middleware.Auth(), controllers.ResetPassword)
+	app.Get("/api/user/:id", controllers.GetUser)
 
 	// category routes
 	app.Get("/api/category", controllers.GetCategories)
@@ -32,7 +33,12 @@ func SetUpRoutes(app *fiber.App ) error {
 
 	// blog routes
 	app.Get("/api/blogs", controllers.GetBlogs)
+	
 	app.Get("/api/blogs/:category", controllers.GetCategBlogs)
+	// blog details
+	app.Get("/api/blogs/id/:blog_id", controllers.GetBlog)
+	app.Get("/api/blogs/user/:id", controllers.GetUserBlogs)
+
 	app.Post("/api/blogs", middleware.Auth(), controllers.CreateBlog)
 	app.Patch("/api/blogs/:id", middleware.Auth(), controllers.UpdateBlog)
 	app.Delete("/api/blogs/:id",middleware.Auth(), controllers.DeleteBlog)

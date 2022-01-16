@@ -62,12 +62,6 @@ func ResetPassword(c *fiber.Ctx) error {
 		})
 	}
 	
-	// if len(data["passsword"]) < 6 {
-	// 	return c.Status(400).JSON(fiber.Map{
-	// 		"msg": "The password should be atleast 6 characters",
-	// 	})
-	// }
-	
 	// // find user
 	var user models.User
 	config.Database.Db.Where("uid = ?", id).First(&user)
@@ -99,4 +93,28 @@ func ResetPassword(c *fiber.Ctx) error {
 	return c.Status(200).JSON(fiber.Map{
 		"msg": "Password has been reset",
 	})
+}
+
+func GetUser(c *fiber.Ctx) error {
+	id := c.Params("id")
+
+	if id == "" {
+		return c.Status(400).JSON(fiber.Map{
+			"msg": "user id is required",
+		})
+	}
+
+	// find user
+	var user models.User
+	config.Database.Db.Where("uid = ?", id).First(&user)
+
+	if user.Id == 0 {
+		return c.Status(400).JSON(fiber.Map{
+			"msg": "No user was found!",
+		})
+	}
+
+	responseUser := CreateResponseUser(user)
+
+    return c.Status(200).JSON(responseUser)
 }

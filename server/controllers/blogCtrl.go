@@ -109,6 +109,30 @@ func GetBlogs(c *fiber.Ctx) error {
 	})
 }
 
+func GetBlog(c *fiber.Ctx) error {
+	id := c.Params("blog_id")
+    
+	if id == ""{
+		return c.Status(400).JSON(fiber.Map{
+			"msg": "Blog id is required",
+		})
+	}
+
+	// findBlogs
+	var blog models.Blog
+	config.Database.Db.Where("uid = ?", id).First(&blog)
+
+	if blog.Id == 0 {
+		return c.Status(400).JSON(fiber.Map{
+			"msg": "No blog was found",
+		})
+	}
+
+	responseBlog := createResponseBlog(blog)
+
+	return c.Status(200).JSON(responseBlog)
+}
+
 func GetCategBlogs(c *fiber.Ctx) error{
 	id := c.Params("category")
 	blogs := []models.Blog{}
@@ -221,4 +245,31 @@ func DeleteBlog(c *fiber.Ctx) error{
 	return c.Status(200).JSON(fiber.Map{
 		"msg":"Delete success..",
 	})
+}
+
+func GetUserBlogs(c *fiber.Ctx) error {
+	id := c.Params("id")
+	blogs := []models.Blog{}
+
+	if id == ""{
+		return c.Status(400).JSON(fiber.Map{
+			"msg": "User id is required",
+		})
+	}
+
+	// findBlogs
+	config.Database.Db.Find(&blogs)
+
+	responseBlogs := []Blog{}
+
+	for _, blog := range blogs {
+		if(blog.UserRefer == id){
+			responseBlog := createResponseBlog(blog)
+			responseBlogs = append(responseBlogs, responseBlog)
+		}
+	}
+	
+   return c.Status(200).JSON(fiber.Map{
+	   "blogs": responseBlogs,
+   })
 }

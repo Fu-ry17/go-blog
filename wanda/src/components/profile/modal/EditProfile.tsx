@@ -3,7 +3,7 @@ import { Modal, ModalOverlay, ModalContent, ModalHeader,
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { resetPassword, updateUser } from '../../../redux/actions/profileActions'
+import { resetPassword, updateUser } from '../../../redux/actions/userActions'
 import { ALERT } from '../../../redux/types/alertTypes'
 import { InputChange, IUserProfile, RootStore, FormSubmit } from '../../../utils/TypeScript'
 import { validImage } from '../../../utils/valid'
